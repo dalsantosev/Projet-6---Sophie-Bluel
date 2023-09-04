@@ -14,6 +14,7 @@ db.works = require('./works.model.js')(sequelize, Sequelize);
 db.categories = require('./categories.model.js')(sequelize, Sequelize);
 
 // Works and Categories Relationships
+
 db.categories.hasMany(db.works, {as: "works"})
 db.works.belongsTo(db.categories, {
 	foreignKey: 'categoryId',
@@ -21,6 +22,7 @@ db.works.belongsTo(db.categories, {
 });
 
 // Works and Users Relationships
+
 db.users.hasMany(db.works, {as: "works"})
 db.works.belongsTo(db.users, {
 	foreignKey: 'userId',
