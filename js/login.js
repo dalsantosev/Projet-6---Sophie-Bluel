@@ -23,6 +23,8 @@ function addSubmitEvent() {
 
     });
 
+    
+}
 
 /**
  * Function which authentificate the user
@@ -32,10 +34,6 @@ async function authenticateUser() {
     let userEmail = document.querySelector('input#email').value;
     let userPass = document.querySelector('input#password').value;
 
-    /**
-     * Disabled because it's a demonstration, there's no backend to fetch
-     */
-    /*
     const postData = JSON.stringify({
         "email": userEmail,
         "password": userPass
@@ -62,20 +60,6 @@ async function authenticateUser() {
             }
         })
         .catch( (error) => showErrorElt("Une erreur est survenue"));
-    */
-    /**
-     * for demonstration purpose
-     * we save a false token
-     * or treat erros like a promise rejection or a 404
-     */
-    let demoToken = "azerty"
-    if (userEmail == "sophie.bluel@test.tld" && userPass == "S0phie ") demoSaveTokenAndRedirect( demoToken )
-    // 404
-    else if (userEmail != "sophie.bluel@test.tld" || password != "S0phie " ) showErrorElt("Erreur dans l’identifiant ou le mot de passe");
-    // rejection
-    else {
-        showErrorElt("Une erreur est survenue");
-    }
 
 
 }
@@ -129,12 +113,4 @@ async function saveTokenAndRedirect(res) {
 
     // redirect to front
     window.location.href = "index.html";
-}
-
-async function demoSaveTokenAndRedirect(token) {
-    sessionStorage.setItem('token', token);
-
-    // redirect to front
-    window.location.href = "index.html";
-
 }
