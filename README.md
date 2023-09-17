@@ -11,4 +11,7 @@ Ma mission est de concevoir le site portfolio d'une architecte d'intérieur et d
 - **Recommandées** : **HTML / CSS / JavaScript**
 - **API**
 
+## Lien vers une démonstration du site :
+https://dalsantosev.github.io/Projet-6---Sophie-Bluel/
+
 
