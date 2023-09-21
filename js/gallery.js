@@ -91,24 +91,7 @@ async function createFilterBar() {
 
 }
 
-/**
- * hide works if not in category provided
- * if no category provided show all works
- * @param {Event} e the event propagated
- */
-async function filterWorks(e) {
 
-    if (e.currentTarget.classList.contains('active')) return
-
-    // remove active class from all filters
-    for (let button of document.querySelectorAll('div.categories>button')) button.classList.remove('active');
-    // then add active to current target
-    e.currentTarget.classList.add('active');
-
-    // rebuild gallery with correct filter
-    buildGallery(e.currentTarget.getAttribute('data-categoryid'));
-
-}
 
 /**
  * custom function to add a paragraph
