@@ -31,6 +31,8 @@ async function createEditionElts() {
             modifier
         </button>
     `;
+    // Hide categories
+    document.querySelector('.categories>button').style.display = 'none';
 
     // button above main article
     document.querySelector('#introduction>article')
