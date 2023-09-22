@@ -1,92 +1,58 @@
 /*
-* file used in login.html 
-* authentificate user
-*/
+ * file used in login.html
+ * authentificate user
+ */
 document.body.onload = addSubmitEvent;
 
 /**
  * add necessary event to login form
  */
 function addSubmitEvent() {
+  let form = document.querySelector(".login-form");
 
-    let form = document.querySelector('.login-form');
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-    form.addEventListener("submit", (e) => {
-        
-        e.preventDefault();
+    // do form validation
+    let formIsValid = validateForm();
 
-        // do form validation
-        let formIsValid = validateForm();
-
-        // do user authentication
-        if (formIsValid == true) authenticateUser();
-
-    });
-
-    // give ids for demo purpose
-    let idsElt = document.createElement('p')
-    idsElt.classList.add('error')
-    idsElt.setAttribute('style', 'border-color: #296907; color:#296907; background-color: #9fe67a; text-align: unset;')
-    idsElt.innerHTML= 'Les identifiants sont : <br>E-mail : sophie.bluel@test.tld<br>Mot de passe : S0phie'
-    form.parentElement.insertBefore(idsElt, form)
-
-    
+    // do user authentication
+    if (formIsValid == true) authenticateUser();
+  });
 }
 
 /**
  * Function which authentificate the user
  */
 async function authenticateUser() {
+  let userEmail = document.querySelector("input#email").value;
+  let userPass = document.querySelector("input#password").value;
 
-    let userEmail = document.querySelector('input#email').value;
-    let userPass = document.querySelector('input#password').value;
+  const postData = JSON.stringify({
+    email: userEmail,
+    password: userPass,
+  });
 
-    /**
-     * Disabled because it's a demonstration, there's no backend to fetch
-     */
-    /*
-    const postData = JSON.stringify({
-        "email": userEmail,
-        "password": userPass
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: postData,
+  };
+
+  await fetch("http://localhost:5678/api/users/login", options)
+    .then((res) => {
+      if (res.status == "200") {
+        // save token and redirect
+        saveTokenAndRedirect(res);
+      } else if (res.status == "404") {
+        showErrorElt("Erreur dans l’identifiant ou le mot de passe");
+      } else {
+        return Promise.reject(res.status);
+      }
     })
-
-    const options = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: postData
-    };
-
-    await fetch("http://localhost:5678/api/users/login", options)
-        .then( (res) => {
-            if (res.status == "200") {
-                // save token and redirect
-                saveTokenAndRedirect(res);
-
-            } else if (res.status == "404") {
-                showErrorElt("Erreur dans l’identifiant ou le mot de passe");
-            } else {
-                return Promise.reject(res.status)
-            }
-        })
-        .catch( (error) => showErrorElt("Une erreur est survenue"));
-    */
-    /**
-     * for demonstration purpose
-     * we save a false token
-     * or treat errors like a promise rejection or a 404
-     */
-    let demoToken = "azerty"
-    if (userEmail == "sophie.bluel@test.tld" && userPass == "S0phie") demoSaveTokenAndRedirect( demoToken )
-    // 404
-    else if (userEmail != "sophie.bluel@test.tld" || password != "S0phie" ) showErrorElt("Erreur dans l’identifiant ou le mot de passe");
-    // rejection
-    else {
-        showErrorElt("Une erreur est survenue");
-    }
-
-
+    .catch((error) => showErrorElt("Une erreur est survenue"));
 }
 
 /**
@@ -94,33 +60,32 @@ async function authenticateUser() {
  * @param {String}
  */
 function showErrorElt(reason) {
+  if (document.querySelector(".error"))
+    document.querySelector(".error").remove();
 
-    if (document.querySelector('.error')) document.querySelector('.error').remove();
+  let formSection = document.getElementById("login-section");
+  let form = document.getElementById("login-form");
 
-    let formSection = document.getElementById('login-section');
-    let form = document.getElementById('login-form');
+  let errorElt = document.createElement("p");
+  errorElt.classList.add("error");
+  errorElt.appendChild(document.createTextNode(reason));
 
-    let errorElt = document.createElement('p');
-    errorElt.classList.add('error');
-    errorElt.appendChild(document.createTextNode(reason));
-
-    formSection.insertBefore(errorElt, form);
-
+  formSection.insertBefore(errorElt, form);
 }
 
 /**
  * function for basic form validation
  */
 function validateForm() {
-
-    let formInputs = document.querySelectorAll('form#login-form>label>input');
-    var valid = true;
-    for (let input of formInputs) {
-        valid &= input.reportValidity();
-        if (!valid) {break;}
-    };
-    if (valid) return true;
-
+  let formInputs = document.querySelectorAll("form#login-form>label>input");
+  var valid = true;
+  for (let input of formInputs) {
+    valid &= input.reportValidity();
+    if (!valid) {
+      break;
+    }
+  }
+  if (valid) return true;
 }
 
 /**
@@ -129,21 +94,13 @@ function validateForm() {
  * @param {Response} res the response
  */
 async function saveTokenAndRedirect(res) {
+  res = await res.json();
 
-    res = await res.json();
+  const token = res.token;
+  console.log({ token });
 
-    const token = res.token;
+  sessionStorage.setItem("token", token);
 
-    sessionStorage.setItem('token', token);
-
-    // redirect to front
-    window.location.href = "index.html";
-}
-
-async function demoSaveTokenAndRedirect(token) {
-    sessionStorage.setItem('token', token);
-
-    // redirect to front
-    window.location.href = "index.html";
-
+  // redirect to front
+  window.location.href = "index.html";
 }

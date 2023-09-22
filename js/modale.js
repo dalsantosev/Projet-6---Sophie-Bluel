@@ -212,8 +212,6 @@ async function deleteWork(id) {
     // use authentification token stored in cookie
     const token = sessionStorage.getItem('token');
 
-    /** disabled for demo purpose
-
     const options = {
         method: "DELETE",
 
@@ -249,34 +247,6 @@ async function deleteWork(id) {
             closeModal();
             alert("Une erreur est survenue, le média n'a pas été supprimé");
         });
-        */
-
-        // demo process same result but without fetch
-        try {
-            if (token == 'azerty') {
-    
-                // remove this work from our set
-                works.forEach( (work) => {
-                    if (work.id == id) works.delete(work)
-                });
-    
-                openModal();
-    
-                // then rebuild gallery
-                buildGallery();
-    
-            } else {
-        
-                throw new Error("Quelque chose s'est mal passé");
-        
-            }
-
-        } catch (error) {
-            // if there's an error, inform user with popup
-            closeModal();
-            alert("Une erreur est survenue, le média n'a pas été supprimé");
-        }
-
 }
 
 /**

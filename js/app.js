@@ -1,19 +1,18 @@
 /* Script chargé de l'import des projets */
 
 // retrieve our modules
-import { buildGallery, buildCategories } from "./gallery.js"
-import { createEditionElts } from "./modale.js"
-import * as set from "./sets.js"
+import { buildGallery, buildCategories } from "./gallery.js";
+import { createEditionElts } from "./modale.js";
+import * as set from "./sets.js";
 
 /* call our function to build non filtered gallery */
 document.body.onload = buildPage;
 
-/** 
-* call necessary function to add dynamic elements
-* to this page
-* init sets to avoid other api calls
-*/
-
+/**
+ * call necessary function to add dynamic elements
+ * to this page
+ * init sets to avoid other api calls
+ */
 async function buildPage() {
   const token = sessionStorage.getItem("token");
   await set.initWorksSet();
@@ -28,3 +27,4 @@ async function buildPage() {
   if (token !== null) {
     createEditionElts();
   }
+}

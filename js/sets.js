@@ -1,29 +1,18 @@
-import { showErrorElt } from "./gallery.js";
+
+import { showErrorElt } from "./gallery.js"
 
 /* Create our sets, to use it later */
 let works = new Set();
 let categories = new Set();
 
-/** Because it's a demo, we don't use any backend, so there is data from backend */
-import { worksData, categoriesData } from "./data.js";
 
-/**
- * make an api call to retrieve all works
- * and adds it to worksSet
- * @return {object} All works
- */
+/** 
+* make an api call to retrieve all works 
+* and adds it to worksSet
+* @return {object} All works
+*/
 async function initWorksSet() {
-    try {
-        return worksData.map((work) => works.add(work));
-    } catch {
-        showErrorElt();
-    }
 
-    /**
-     * This part isn't used in this demo
-     * Because there's no back-end
-     */
-    /*
     return fetch('http://localhost:5678/api/works')
         .then( async res => {
 
@@ -36,7 +25,7 @@ async function initWorksSet() {
         .then( set => set.forEach( (work) => works.add(work)) )
         // if there's an error, create an error message on page.
         .catch( (error) => showErrorElt() );
-      */
+
 }
 
 /**
@@ -44,16 +33,7 @@ async function initWorksSet() {
  * @return {object} all categories
  */
 async function initCategoriesSet() {
-    try {
-        return categoriesData.map((category) => categories.add(category));
-    } catch {
-        showErrorElt();
-    }
-    /**
-     * This part isn't used in this demo
-     * Because there's no back-end
-     */
-    /*
+
     return fetch('http://localhost:5678/api/categories')
         .then( async res => {
 
@@ -64,7 +44,12 @@ async function initCategoriesSet() {
         })
         .then( set => set.forEach( (category) => categories.add(category)) )
         .catch( (error) => showErrorElt() );
-      */
+
 }
 
-export { works, categories, initCategoriesSet, initWorksSet };
+export {
+    works,
+    categories,
+    initCategoriesSet,
+    initWorksSet
+}
