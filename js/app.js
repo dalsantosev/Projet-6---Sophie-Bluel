@@ -13,19 +13,18 @@ document.body.onload = buildPage;
 * to this page
 * init sets to avoid other api calls
 */
+
 async function buildPage() {
+  const token = sessionStorage.getItem("token");
+  await set.initWorksSet();
+  await set.initCategoriesSet();
 
-    await set.initWorksSet();
-    await set.initCategoriesSet();
+  // in case of error during init, do nothing
+  if (set.categories.size !== 0 && token === null) buildCategories();
+  if (set.works.size !== 0) buildGallery();
 
-    // in case of error during init, do nothing
-    if (set.categories.size !== 0) buildCategories();
-    if (set.works.size !== 0) buildGallery();
+  // use authentification token stored in sessionStorage
 
-    // use authentification token stored in sessionStorage
-    const token = sessionStorage.getItem('token')
-
-    if (token !== null) {
-        createEditionElts();
-    }
-}
+  if (token !== null) {
+    createEditionElts();
+  }
